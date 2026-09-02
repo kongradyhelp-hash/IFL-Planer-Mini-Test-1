@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFL-Planer — Mini Test 1</title>
+  <style>
+    :root {
+      --bg-navy: #0d1b3e;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --blue-accent: #2563eb;
+      --yellow-accent: #f59e0b;
+      --purple-accent: #8b5cf6;
+      --pink-accent: #ec4899;
+      --cyan-accent: #06b6d4;
+      --green-accent: #10b981;
+      --danger-color: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: var(--text-dark);
+      padding-bottom: 70px;
+    }
+
+    /* Header Banner */
+    .header-banner {
+      background: linear-gradient(135deg, #091228 0%, #0d1b3e 50%, #172a5a 100%);
+      color: #ffffff;
+      text-align: center;
+      padding: 30px 15px 45px 15px;
+      position: relative;
+    }
+
+    .logo-container {
+      margin-bottom: 12px;
+    }
+
+    .brand-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
+      border: 2px solid #d4af37;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .header-banner h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #facc15;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .header-banner p {
+      font-size: 14px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Container */
+    .container {
+      max-width: 980px;
+      margin: -25px auto 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Student Info Bar */
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--blue-accent);
+    }
+
+    /* Scoreboard */
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .score-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+      border-top: 4px solid transparent;
+    }
+
+    .score-card.grammar { border-color: var(--blue-accent); }
+    .score-card.vocab { border-color: var(--yellow-accent); }
+    .score-card.reading { border-color: var(--purple-accent); }
+    .score-card.thinking { border-color: var(--pink-accent); }
+    .score-card.matching { border-color: var(--cyan-accent); }
+    .score-card.total { border-color: var(--green-accent); }
+
+    .score-card .title {
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .score-card .points {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* Section Headers */
+    .section-header {
+      border-radius: 10px;
+      padding: 14px 20px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 28px 0 16px 0;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .section-header h2 {
+      font-size: 15.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-badge {
+      background: rgba(255, 255, 255, 0.2);
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .sh-grammar { background: linear-gradient(90deg, #1d4ed8, #2563eb); }
+    .sh-vocab { background: linear-gradient(90deg, #d97706, #f59e0b); }
+    .sh-reading { background: linear-gradient(90deg, #6d28d9, #8b5cf6); }
+    .sh-thinking { background: linear-gradient(90deg, #db2777, #ec4899); }
+    .sh-matching { background: linear-gradient(90deg, #0891b2, #06b6d4); }
+
+    /* Reading Passage Box */
+    .reading-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--purple-accent);
+      border-right: 1px solid var(--border-color);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 18px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    .thinking-box {
+      border-left-color: var(--pink-accent);
+      background: #fdf2f8;
+    }
+
+    .matching-box {
+      border-left-color: var(--cyan-accent);
+      background: #f0fdfa;
+    }
+
+    .headings-reference {
+      background: #ffffff;
+      border: 1px dashed #0891b2;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+
+    .headings-reference strong {
+      display: block;
+      color: #0e7490;
+      margin-bottom: 6px;
+    }
+
+    /* Question Cards */
+    .q-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: transform 0.15s ease;
+    }
+
+    .q-text {
+      font-size: 14.5px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .q-num {
+      color: var(--blue-accent);
+      margin-right: 6px;
+    }
+
+    /* Options Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .scoreboard { grid-template-columns: repeat(3, 1fr); }
+      .info-card { grid-template-columns: 1fr; }
+    }
+
+    .opt-label {
+      display: flex;
+      align-items: center;
+      padding: 9px 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #334155;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+
+    .opt-label:hover {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .opt-label input {
+      display: none;
+    }
+
+    .opt-tag {
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f1f5f9;
+      margin-right: 10px;
+      font-size: 12px;
+    }
+
+    /* Instant Feedback Classes */
+    .opt-label.correct {
+      background-color: #dcfce7 !important;
+      border-color: #22c55e !important;
+      color: #15803d !important;
+      font-weight: 700;
+    }
+
+    .opt-label.correct .opt-tag {
+      background: #22c55e;
+      color: white;
+    }
+
+    .opt-label.incorrect {
+      background-color: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #b91c1c !important;
+      font-weight: 700;
+    }
+
+    .opt-label.incorrect .opt-tag {
+      background: #ef4444;
+      color: white;
+    }
+
+    .feedback-msg {
+      margin-top: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .feedback-msg.show-correct {
+      display: block;
+      background: #ecfdf5;
+      color: #047857;
+      border-left: 3px solid #10b981;
+    }
+
+    .feedback-msg.show-wrong {
+      display: block;
+      background: #fef2f2;
+      color: #b91c1c;
+      border-left: 3px solid #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Hero Banner with Requested Logo -->
+  <header class="header-banner">
+    <div class="logo-container">
+      <svg class="brand-logo" viewBox="0 0 400 400" width="90" height="90">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd54f" />
+            <stop offset="50%" stop-color="#d4af37" />
+            <stop offset="100%" stop-color="#aa7c11" />
+          </linearGradient>
+          <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa" />
+            <stop offset="50%" stop-color="#2563eb" />
+            <stop offset="100%" stop-color="#1e3a8a" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" rx="80" fill="#0b111e"/>
+        <!-- Star Left -->
+        <polygon points="125,120 131,135 147,135 134,145 139,160 125,150 111,160 116,145 103,135 119,135" fill="url(#goldGrad)" />
+        <!-- Star Right -->
+        <polygon points="275,120 281,135 297,135 284,145 289,160 275,150 261,160 266,145 253,135 269,135" fill="url(#blueGrad)" />
+        <!-- Head -->
+        <circle cx="200" cy="140" r="24" fill="url(#blueGrad)"/>
+        <!-- Mortarboard Cap -->
+        <polygon points="200,68 250,90 200,108 150,90" fill="url(#goldGrad)"/>
+        <path d="M172,100 L172,118 Q200,132 228,118 L228,100 Z" fill="url(#goldGrad)"/>
+        <line x1="240" y1="92" x2="240" y2="128" stroke="url(#goldGrad)" stroke-width="4"/>
+        <circle cx="240" cy="130" r="3" fill="url(#goldGrad)"/>
+        <!-- Left Gold Wing -->
+        <path d="M85,142 C125,160 160,205 185,245 C150,245 130,225 110,195 Z" fill="url(#goldGrad)"/>
+        <path d="M125,160 C155,200 175,255 220,245 C175,225 155,185 135,165 Z" fill="url(#goldGrad)"/>
+        <!-- Right Blue Wing -->
+        <path d="M315,142 C275,160 240,205 215,245 C250,245 270,225 290,195 Z" fill="url(#blueGrad)"/>
+        <path d="M275,160 C245,200 225,255 180,245 C225,225 245,185 265,165 Z" fill="url(#blueGrad)"/>
+        <!-- Text -->
+        <text x="200" y="300" text-anchor="middle" font-family="'Arial Black', sans-serif" font-weight="900" font-size="34" fill="url(#goldGrad)" letter-spacing="1.5">IFL PLANER</text>
+        <text x="200" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="12" fill="#d4af37" letter-spacing="2">YOUR EDUCATION IS OUR PRIORITY!</text>
+      </svg>
+    </div>
+    <h1>IFL-Planer — Mini Test 1</h1>
+    <p>Grammar · Vocabulary · Reading · Thinking Skills · IELTS Matching Heading | Level B2</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Student Name & Date Header -->
+    <div class="info-card">
+      <div class="input-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your full name">
+      </div>
+      <div class="input-group">
+        <label for="testDate">Date</label>
+        <input type="date" id="testDate">
+      </div>
+    </div>
+
+    <!-- Live 6-Category Scoreboard -->
+    <section class="scoreboard">
+      <div class="score-card grammar">
+        <div class="title">Grammar</div>
+        <div class="points" id="scoreGrammar">0 / 20</div>
+      </div>
+      <div class="score-card vocab">
+        <div class="title">Vocabulary</div>
+        <div class="points" id="scoreVocab">0 / 20</div>
+      </div>
+      <div class="score-card reading">
+        <div class="title">Reading</div>
+        <div class="points" id="scoreReading">0 / 5</div>
+      </div>
+      <div class="score-card thinking">
+        <div class="title">Thinking Skills</div>
+        <div class="points" id="scoreThinking">0 / 5</div>
+      </div>
+      <div class="score-card matching">
+        <div class="title">Matching Heading</div>
+        <div class="points" id="scoreMatching">0 / 5</div>
+      </div>
+      <div class="score-card total">
+        <div class="title">Total Score</div>
+        <div class="points" id="scoreTotal">0 / 55</div>
+      </div>
+    </section>
+
+    <!-- ==================== PART 1: GRAMMAR ==================== -->
+    <div class="section-header sh-grammar">
+      <h2>📘 Part 1 — Grammar (Multiple Choice)</h2>
+      <span class="section-badge">20 items · 20 pts</span>
+    </div>
+    <div id="grammarQuestions"></div>
+
+    <!-- ==================== PART 2: VOCABULARY ==================== -->
+    <div class="section-header sh-vocab">
+      <h2>📙 Part 2 — Vocabulary (Multiple Choice)</h2>
+      <span class="section-badge">20 items · 20 pts</span>
+    </div>
+    <div id="vocabQuestions"></div>
+
+    <!-- ==================== PART 3: READING ==================== -->
+    <div class="section-header sh-reading">
+      <h2>📗 Part 3 — TOEFL Reading</h2>
+      <span class="section-badge">5 items · 5 pts</span>
+    </div>
+    <div class="reading-box">
+      <strong>Reading Passage:</strong><br>
+      It is said that George Washington was one of the first to realize how important the building of canals would be to the nation's development. In fact, before he became President, he headed the first company in the United States to build a canal, which was to connect the Ohio and Potomac rivers. It was never completed, but it showed the nation the feasibility of canals. As the country expanded westward, settlers in western New York, Pennsylvania, and Ohio needed a means to ship goods. Canals linking natural waterways seemed to supply an effective method.
+    </div>
+    <div id="readingQuestions"></div>
+
+    <!-- ==================== PART 4: THINKING SKILLS ==================== -->
+    <div class="section-header sh-thinking">
+      <h2>🧠 Part 4 — Reading Thinking Skills</h2>
+      <span class="section-badge">5 items · 5 pts</span>
+    </div>
+    <div id="thinkingQuestions"></div>
+
+    <!-- ==================== PART 5: MATCHING HEADINGS ==================== -->
+    <div class="section-header sh-matching">
+      <h2>📕 Part 5 — IELTS Matching Heading</h2>
+      <span class="section-badge">5 items · 5 pts</span>
+    </div>
+    <div class="headings-reference">
+      <strong>List of Headings:</strong>
+      i. Early changes that made Finland's schools successful<br>
+      ii. Support for families and free services for all students<br>
+      iii. How Finland's education reforms began<br>
+      iv. Teachers' freedom and personal help for students<br>
+      v. Competition and testing in American schools<br>
+      vi. A look at how the PISA test changed Finland's reputation<br>
+      vii. The role of private companies in Finnish schools<br>
+      viii. Equal education for every student in the country<br>
+      ix. How teaching became one of the most respected jobs
+    </div>
+    <div id="matchingQuestions"></div>
+
+  </main>
+
+  <script>
+    document.getElementById('testDate').valueAsDate = new Date();
+
+    const testData = {
+      grammar: [
+        {
+          q: "The winner of Miss Grand International receives a crown, ________?",
+          options: ["won't she", "does she", "doesn't she", "will she"],
+          ans: 2,
+          expl: "A positive simple present statement with 'receives' takes the tag 'doesn't she?'."
+        },
+        {
+          q: "Close the front door quietly, ________?",
+          options: ["shall we", "will you", "don't you", "did you"],
+          ans: 1,
+          expl: "Imperatives / requests take 'will you?' or 'won't you?'."
+        },
+        {
+          q: "Let's organize a revision study group for the entrance exam, ________?",
+          options: ["will we", "don't we", "shall we", "aren't we"],
+          ans: 2,
+          expl: "Suggestions starting with 'Let\'s' take the tag 'shall we?'."
+        },
+        {
+          q: "Nobody called the office during lunchtime, ________?",
+          options: ["didn't they", "did they", "did he", "didn't he"],
+          ans: 1,
+          expl: "'Nobody' is negative, requiring an affirmative tag, and the pronoun refers to 'they'."
+        },
+        {
+          q: "Nothing bad happened to the historic monument during the storm, ________?",
+          options: ["did it", "didn't it", "did they", "didn't they"],
+          ans: 0,
+          expl: "'Nothing' is treated as negative and takes the singular pronoun 'it' with a positive tag."
+        },
+        {
+          q: "I am late for the morning registration session, ________?",
+          options: ["am not I", "am I", "aren't I", "isn't it"],
+          ans: 2,
+          expl: "'I am' takes the standard exception tag 'aren't I?'."
+        },
+        {
+          q: "The new governor attempts ________ the well-being of the people by ordering the removal of beer billboards.",
+          options: ["promoting", "promoted", "promote", "to promote"],
+          ans: 3,
+          expl: "The verb 'attempt' takes an infinitive: 'attempt to do something'."
+        },
+        {
+          q: "They cannot afford ________ tuition fees at an overseas university without a scholarship.",
+          options: ["paying", "to pay", "pay", "paid"],
+          ans: 1,
+          expl: "'Afford' is followed by a to-infinitive."
+        },
+        {
+          q: "The suspect finally admitted ________ the documents from the ministry desk.",
+          options: ["to steal", "steal", "stealing", "stolen"],
+          ans: 2,
+          expl: "'Admit' is followed by a gerund (-ing)."
+        },
+        {
+          q: "You must avoid ________ unnecessary mistakes in the actual IFL entrance exam.",
+          options: ["to make", "making", "make", "made"],
+          ans: 1,
+          expl: "'Avoid' is followed by a gerund."
+        },
+        {
+          q: "He didn't hesitate ________ up for the advanced training workshop.",
+          options: ["signing", "sign", "to sign", "signed"],
+          ans: 2,
+          expl: "'Hesitate' is followed by a to-infinitive."
+        },
+        {
+          q: "Would you consider ________ your research paper before the final deadline?",
+          options: ["submitting", "to submit", "submit", "submitted"],
+          ans: 0,
+          expl: "'Consider' is followed by a gerund."
+        },
+        {
+          q: "Most sellers in Kampot are both friendly and ________; they create a welcoming atmosphere.",
+          options: ["help", "helpful", "helper", "helpfully"],
+          ans: 1,
+          expl: "Parallel structure with 'both... and...': adjective (friendly) and adjective (helpful)."
+        },
+        {
+          q: "She speaks English both fluently and ________ during the oral interview.",
+          options: ["accuracy", "accurate", "accurately", "more accurate"],
+          ans: 2,
+          expl: "Parallel structure: adverb (fluently) and adverb (accurately)."
+        },
+        {
+          q: "Either you leave now ________ I call the building security!",
+          options: ["nor", "and", "or", "also"],
+          ans: 2,
+          expl: "The correct correlative conjunction pair is 'Either... or'."
+        },
+        {
+          q: "Neither my friends nor my enemy ________ willing to attend the emergency gathering.",
+          options: ["was", "were", "are", "have"],
+          ans: 0,
+          expl: "With 'neither... nor', the verb agrees with the closer subject ('my enemy' -> singular 'was')."
+        },
+        {
+          q: "Not only did he turn up late, but he ________ forgot his textbooks.",
+          options: ["too", "neither", "also", "either"],
+          ans: 2,
+          expl: "The correlative structure is 'Not only... but (also)'."
+        },
+        {
+          q: "The number of dislikes on YouTube ________ a clear indication of their disapproval.",
+          options: ["were", "was", "are", "been"],
+          ans: 1,
+          expl: "'The number of + plural noun' takes a singular verb ('was')."
+        },
+        {
+          q: "A number of Cambodian students ________ won prestigious international scholarships this year.",
+          options: ["has", "have", "is", "was"],
+          ans: 1,
+          expl: "'A number of + plural noun' takes a plural verb ('have')."
+        },
+        {
+          q: "\"________ can I be eligible for the English Program at IFL?\" — \"You must pass this entrance exam.\"",
+          options: ["Which", "Why", "What", "How"],
+          ans: 3,
+          expl: "'How' asks about the manner, process, or means to achieve eligibility."
+        }
+      ],
+      vocab: [
+        {
+          q: "Choose the closest synonym for the word: <strong>INTEND</strong>",
+          options: ["forget", "mean", "prevent", "delay"],
+          ans: 1,
+          expl: "Intend means to aim, propose, or mean to do something."
+        },
+        {
+          q: "Choose the closest synonym for the phrasal verb: <strong>RUN AFTER</strong>",
+          options: ["chase", "escape", "assist", "detest"],
+          ans: 0,
+          expl: "Run after means to pursue or chase."
+        },
+        {
+          q: "Choose the closest synonym for the word: <strong>ESCAPE</strong>",
+          options: ["hasten", "remain", "get away", "struggle"],
+          ans: 2,
+          expl: "Escape means to flee, break out, or get away."
+        },
+        {
+          q: "Choose the closest synonym for the word: <strong>ASSIST</strong>",
+          options: ["harm", "confuse", "hinder", "help"],
+          ans: 3,
+          expl: "Assist means to aid, support, or help."
+        },
+        {
+          q: "Choose the closest synonym for the word: <strong>NERVOUS</strong>",
+          options: ["anxious", "furious", "peaceful", "proud"],
+          ans: 0,
+          expl: "Nervous means tense, worried, uneasy, or anxious."
+        },
+        {
+          q: "\"I didn't <strong>mean</strong> to upset you; it was just a misunderstanding.\" Which word can substitute 'mean'?",
+          options: ["intend", "attempt", "fail", "decline"],
+          ans: 0,
+          expl: "'Mean' and 'intend' share the exact same contextual meaning here."
+        },
+        {
+          q: "The detective continued to <strong>pursue</strong> the suspect across the capital. 'Pursue' is synonymous with:",
+          options: ["forgive", "chase", "postpone", "recall"],
+          ans: 1,
+          expl: "To pursue someone is to chase them."
+        },
+        {
+          q: "The captive attempted to <strong>flee</strong> from the guarded compound. 'Flee' means:",
+          options: ["surrender", "involve", "escape", "endure"],
+          ans: 2,
+          expl: "'Flee' is a direct synonym for 'escape'."
+        },
+        {
+          q: "The senior coordinator offered to <strong>facilitate</strong> the workshop. 'Facilitate / aid' is closest to:",
+          options: ["assist", "dispute", "resent", "delay"],
+          ans: 0,
+          expl: "Facilitate and aid mean to assist or provide helpful support."
+        },
+        {
+          q: "Candidates often feel <strong>apprehensive</strong> right before the results are posted. 'Apprehensive' means:",
+          options: ["thrilled", "nervous", "confident", "curious"],
+          ans: 1,
+          expl: "Apprehensive means worried, uneasy, or nervous."
+        },
+        {
+          q: "Complete the synonym group: [plan, aim, propose, mean, ________]",
+          options: ["design", "discontinue", "detest", "resist"],
+          ans: 0,
+          expl: "Design, plan, aim, and propose are synonyms of intend/mean."
+        },
+        {
+          q: "Complete the synonym group: [pursue, follow, hunt, track, ________]",
+          options: ["flee", "abscond", "chase", "prevent"],
+          ans: 2,
+          expl: "Chase completes the set of words meaning to pursue or run after."
+        },
+        {
+          q: "Complete the synonym group: [flee, break out, evade, abscond, ________]",
+          options: ["remain", "get away", "strive", "admit"],
+          ans: 1,
+          expl: "Get away completes the synonym set for escape/evade."
+        },
+        {
+          q: "Complete the synonym group: [aid, support, guide, facilitate, ________]",
+          options: ["help", "prevent", "dislike", "defer"],
+          ans: 0,
+          expl: "Help completes the synonym set for assist/support."
+        },
+        {
+          q: "Complete the synonym group: [tense, worried, uneasy, apprehensive, ________]",
+          options: ["carefree", "joyful", "anxious", "reckless"],
+          ans: 2,
+          expl: "Anxious belongs to the family of words describing nervousness and worry."
+        },
+        {
+          q: "To <strong>discontinue</strong> a program means to ________ it.",
+          options: ["stop", "start", "expand", "celebrate"],
+          ans: 0,
+          expl: "Discontinue means to cease, terminate, or stop doing something."
+        },
+        {
+          q: "To <strong>postpone</strong> an exam means to ________.",
+          options: ["cancel forever", "delay it to a later time", "advance the date", "hold immediately"],
+          ans: 1,
+          expl: "Postpone means to defer or delay until later."
+        },
+        {
+          q: "If someone <strong>loathes</strong> dishonest behavior, they ________ it immensely.",
+          options: ["admires", "enjoys", "hates", "tolerates"],
+          ans: 2,
+          expl: "To loathe means to detest, abhor, or strongly hate."
+        },
+        {
+          q: "The verb <strong>strive</strong> means to ________.",
+          options: ["make great efforts", "give up easily", "delay an action", "forget a lesson"],
+          ans: 0,
+          expl: "To strive means to struggle or make great efforts toward achieving a goal."
+        },
+        {
+          q: "The term <strong>endure</strong> is closest in meaning to ________.",
+          options: ["bear / withstand", "escape quickly", "cancel", "dispute"],
+          ans: 0,
+          expl: "To endure means to tolerate, undergo, or withstand hardship."
+        }
+      ],
+      reading: [
+        {
+          q: "The word <strong>\"feasibility\"</strong> in the passage is closest in meaning to:",
+          options: ["length", "importance", "possibility", "construction"],
+          ans: 2,
+          expl: "'Feasibility' denotes whether something is achievable or possible."
+        },
+        {
+          q: "The word <strong>\"it\"</strong> in <em>\"It was never completed, but it showed the nation...\"</em> refers to:",
+          options: ["the Ohio River", "the company George Washington headed", "the canal that was planned", "the nation's development"],
+          ans: 2,
+          expl: "'It' refers back to the canal that was planned to link the Ohio and Potomac rivers."
+        },
+        {
+          q: "According to the passage, all of the following are true EXCEPT:",
+          options: [
+            "George Washington believed canals were important for national development.",
+            "The canal project connecting the Ohio and Potomac rivers was successfully completed.",
+            "The first canal company in the U.S. was led by George Washington.",
+            "Canals were seen as an effective method for shipping goods in western areas."
+          ],
+          ans: 1,
+          expl: "The text explicitly states that the canal 'was never completed'."
+        },
+        {
+          q: "Why did western settlers in New York, Pennsylvania, and Ohio need canals?",
+          options: [
+            "To travel abroad for vacations",
+            "As an effective means to ship commercial goods",
+            "To prevent the Potomac River from drying out",
+            "To build large naval defense ships"
+          ],
+          ans: 1,
+          expl: "Settlers 'needed a means to ship goods' as the nation expanded westward."
+        },
+        {
+          q: "Before serving as President of the United States, George Washington ________.",
+          options: [
+            "headed the first canal company in the United States",
+            "opposed inland water transportation",
+            "funded the entire Erie Canal privately",
+            "banned shipping along natural waterways"
+          ],
+          ans: 0,
+          expl: "The text confirms that 'before he became President, he headed the first company in the United States to build a canal'."
+        }
+      ],
+      thinking: [
+        {
+          passage: "Jules Verne is called the \"father of science fiction.\" He wrote novels in the 1800s. In his novels, he described many things that really happened in the future. For example, he told about airplanes and submarine ships. He also told about a trip to ________.",
+          q: "Based on deductive context, what did Jules Verne write about visiting?",
+          options: ["the seaside", "America", "the moon", "the sun"],
+          ans: 2,
+          expl: "Verne wrote the visionary novel 'From the Earth to the Moon', predicting lunar space travel."
+        },
+        {
+          passage: "The Potato Famine happened in Ireland in the 1840s. The Irish people were poor. They couldn't buy meat or bread because they were too expensive. They ate mostly potatoes. Then, a disease killed many of the potato plants. With no potatoes to eat, the people ________.",
+          q: "What logical consequence followed the destruction of their sole food crop?",
+          options: ["died of hunger", "ate meat instead", "were ill", "were happier"],
+          ans: 0,
+          expl: "Because they were too poor for alternatives and the crop failed, hundreds of thousands died of starvation (hunger)."
+        },
+        {
+          passage: "In ancient times, salt was so rare and valuable that Roman soldiers were paid part of their wages in salt (known as 'salarium'). If an empire ran completely out of salt, it would most likely face ________.",
+          q: "What can be inferred from the high economic and dietary importance of salt?",
+          options: ["a surplus of spices", "economic turmoil and mutiny among soldiers", "an immediate decrease in wars", "the rise of submarine travel"],
+          ans: 1,
+          expl: "Since salt was currency and life-sustaining, running out of it directly threatened soldiers' pay and civil stability."
+        },
+        {
+          passage: "Penguins live in the extreme cold of Antarctica. They have thick layers of blubber and tightly packed feathers that trap warm air against their skin. If a penguin were relocated to a tropical desert, it would most likely ________.",
+          q: "What inference can be made regarding the penguin's physical adaptations?",
+          options: ["fly quickly to find open sea", "suffer from extreme overheating", "grow thicker feathers immediately", "hibernate underground"],
+          ans: 1,
+          expl: "Its insulation traps heat so effectively that tropical temperatures would cause severe overheating."
+        },
+        {
+          passage: "A researcher found that plants kept in complete darkness grew taller and spindlier than plants grown in full sunlight, stretching upward in search of light, but they completely lacked green pigment. Therefore, the production of green chlorophyll in leaves requires ________.",
+          q: "What logical deduction can be drawn from this experiment?",
+          options: ["total darkness", "exposure to sunlight", "dry soil conditions", "cold air temperature"],
+          ans: 1,
+          expl: "Because plants deprived of light fail to produce green pigment, sunlight is necessary for chlorophyll synthesis."
+        }
+      ],
+      matching: [
+        {
+          passage: "At Kirkkojarvi Comprehensive School in Espoo, near Helsinki, the principal, Kari Louhivuori, decided to do something unusual for Finland. One of his sixth-grade students, a new immigrant, was not doing well in school even though his teacher tried hard to help him. So Louhivuori decided the boy should repeat the year. In Finland, teachers are trusted to do whatever to help students learn better. Louhivuori worked with the boy personally. When the boy was not in other classes, he sat near Louhivuori's desk and read many books. By the end of the year, the boy learned Finnish well and understood that he really could learn.",
+          q: "Which heading best fits the paragraph above?",
+          options: [
+            "i. Early changes that made Finland's schools successful",
+            "iv. Teachers' freedom and personal help for students",
+            "vi. A look at how the PISA test changed Finland's reputation",
+            "viii. Equal education for every student in the country"
+          ],
+          ans: 1,
+          expl: "Heading 'iv' captures both the trust/freedom granted to teachers and the individualized assistance given to the boy."
+        },
+        {
+          passage: "In the 1970s, Finnish policymakers realized that if a small nation wanted to compete globally, it needed to completely transform its basic education structure. They abolished the old dual-track system, uniting all children into a single common nine-year comprehensive school framework.",
+          q: "Which heading best matches this historical paragraph?",
+          options: [
+            "iii. How Finland's education reforms began",
+            "v. Competition and testing in American schools",
+            "vii. The role of private companies in Finnish schools",
+            "ix. How teaching became one of the most respected jobs"
+          ],
+          ans: 0,
+          expl: "This section details the roots and early origins of Finland's national school reforms."
+        },
+        {
+          passage: "Regardless of whether a child lives in a wealthy urban neighborhood or a remote rural village in the north, every student is entitled to identical high-quality resources, qualified instructors, and modern facilities, eliminating disparities between schools.",
+          q: "Which heading best reflects this description?",
+          options: [
+            "ii. Support for families and free services for all students",
+            "v. Competition and testing in American schools",
+            "viii. Equal education for every student in the country",
+            "ix. How teaching became one of the most respected jobs"
+          ],
+          ans: 2,
+          expl: "The passage stresses uniform conditions and equitable opportunities throughout the country."
+        },
+        {
+          passage: "Schools supply every child with free hot meals, comprehensive medical check-ups, psychological guidance, dental care, and learning materials, ensuring that economic hardship never interferes with learning.",
+          q: "Which heading best aligns with this policy?",
+          options: [
+            "i. Early changes that made Finland's schools successful",
+            "ii. Support for families and free services for all students",
+            "vi. A look at how the PISA test changed Finland's reputation",
+            "vii. The role of private companies in Finnish schools"
+          ],
+          ans: 1,
+          expl: "The paragraph outlines free welfare, food, and healthcare services provided directly to students and families."
+        },
+        {
+          passage: "Admission into teacher education programs is fiercely competitive, accepting only the top 10% of master's degree applicants. Because of these rigorous standards, society regards educators with the same esteem as doctors or lawyers.",
+          q: "Which heading best captures the status of educators?",
+          options: [
+            "iv. Teachers' freedom and personal help for students",
+            "vi. A look at how the PISA test changed Finland's reputation",
+            "vii. The role of private companies in Finnish schools",
+            "ix. How teaching became one of the most respected jobs"
+          ],
+          ans: 3,
+          expl: "The text explains the strict selective standards and public prestige associated with teaching."
+        }
+      ]
+    };
+
+    const userAnswers = {
+      grammar: {},
+      vocab: {},
+      reading: {},
+      thinking: {},
+      matching: {}
+    };
+
+    function renderQuestions() {
+      // 1. Grammar (1 - 20)
+      const gContainer = document.getElementById('grammarQuestions');
+      testData.grammar.forEach((item, idx) => {
+        gContainer.appendChild(createQuestionCard(item, idx + 1, 'grammar', idx));
+      });
+
+      // 2. Vocab (21 - 40)
+      const vContainer = document.getElementById('vocabQuestions');
+      testData.vocab.forEach((item, idx) => {
+        vContainer.appendChild(createQuestionCard(item, idx + 21, 'vocab', idx));
+      });
+
+      // 3. Reading (41 - 45)
+      const rContainer = document.getElementById('readingQuestions');
+      testData.reading.forEach((item, idx) => {
+        rContainer.appendChild(createQuestionCard(item, idx + 41, 'reading', idx));
+      });
+
+      // 4. Thinking Skills (46 - 50)
+      const tContainer = document.getElementById('thinkingQuestions');
+      testData.thinking.forEach((item, idx) => {
+        tContainer.appendChild(createQuestionCard(item, idx + 46, 'thinking', idx, true, 'thinking-box'));
+      });
+
+      // 5. Matching Heading (51 - 55)
+      const mContainer = document.getElementById('matchingQuestions');
+      testData.matching.forEach((item, idx) => {
+        mContainer.appendChild(createQuestionCard(item, idx + 51, 'matching', idx, true, 'matching-box'));
+      });
+    }
+
+    function createQuestionCard(item, displayNum, category, index, hasPassage = false, passageClass = '') {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${category}-${index}`;
+
+      let passageHTML = '';
+      if (hasPassage && item.passage) {
+        passageHTML = `<div class="reading-box ${passageClass}" style="margin-bottom:12px;"><em>"${item.passage}"</em></div>`;
+      }
+
+      const letters = ['A', 'B', 'C', 'D'];
+      let optionsHTML = '';
+
+      item.options.forEach((opt, optIdx) => {
+        optionsHTML += `
+          <label class="opt-label" id="opt-${category}-${index}-${optIdx}">
+            <input type="radio" name="${category}-${index}" value="${optIdx}" onchange="handleAnswer('${category}', ${index}, ${optIdx})">
+            <span class="opt-tag">${letters[optIdx]}</span>
+            <span>${opt}</span>
+          </label>
+        `;
+      });
+
+      card.innerHTML = `
+        ${passageHTML}
+        <div class="q-text">
+          <span class="q-num">${displayNum}.</span> ${item.q}
+        </div>
+        <div class="options-grid">
+          ${optionsHTML}
+        </div>
+        <div class="feedback-msg" id="feedback-${category}-${index}"></div>
+      `;
+
+      return card;
+    }
+
+    window.handleAnswer = function(category, itemIndex, selectedIdx) {
+      const question = testData[category][itemIndex];
+      const feedbackEl = document.getElementById(`feedback-${category}-${itemIndex}`);
+      const isCorrect = (selectedIdx === question.ans);
+
+      // Disable choices to lock selection
+      const inputs = document.querySelectorAll(`input[name="${category}-${itemIndex}"]`);
+      inputs.forEach(input => input.disabled = true);
+
+      // Highlight feedback
+      const selectedLabel = document.getElementById(`opt-${category}-${itemIndex}-${selectedIdx}`);
+      const correctLabel = document.getElementById(`opt-${category}-${itemIndex}-${question.ans}`);
+
+      if (isCorrect) {
+        selectedLabel.classList.add('correct');
+        feedbackEl.className = 'feedback-msg show-correct';
+        feedbackEl.innerHTML = `✓ <strong>Correct!</strong> ${question.expl}`;
+      } else {
+        selectedLabel.classList.add('incorrect');
+        correctLabel.classList.add('correct');
+        feedbackEl.className = 'feedback-msg show-wrong';
+        feedbackEl.innerHTML = `✗ <strong>Incorrect.</strong> Correct answer is <strong>${['A','B','C','D'][question.ans]}</strong>. ${question.expl}`;
+      }
+
+      // Record score
+      userAnswers[category][itemIndex] = isCorrect ? 1 : 0;
+      updateScoreboard();
+    };
+
+    function updateScoreboard() {
+      const gScore = Object.values(userAnswers.grammar).reduce((a, b) => a + b, 0);
+      const vScore = Object.values(userAnswers.vocab).reduce((a, b) => a + b, 0);
+      const rScore = Object.values(userAnswers.reading).reduce((a, b) => a + b, 0);
+      const tScore = Object.values(userAnswers.thinking).reduce((a, b) => a + b, 0);
+      const mScore = Object.values(userAnswers.matching).reduce((a, b) => a + b, 0);
+      const total = gScore + vScore + rScore + tScore + mScore;
+
+      document.getElementById('scoreGrammar').innerText = `${gScore} / 20`;
+      document.getElementById('scoreVocab').innerText = `${vScore} / 20`;
+      document.getElementById('scoreReading').innerText = `${rScore} / 5`;
+      document.getElementById('scoreThinking').innerText = `${tScore} / 5`;
+      document.getElementById('scoreMatching').innerText = `${mScore} / 5`;
+      document.getElementById('scoreTotal').innerText = `${total} / 55`;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderQuestions);
+  </script>
+</body>
+</html>
